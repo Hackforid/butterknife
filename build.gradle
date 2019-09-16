@@ -8,6 +8,7 @@ buildscript {
       'supportLibrary': '28.0.0',
       'androidTools': '26.2.0',
       'kotlin': '1.2.71',
+      'incap' : '0.2',
 
       'release': '8.8.1',
   ]
@@ -49,13 +50,17 @@ buildscript {
       ],
       'kotlin': [
           'stdLibJdk8': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
+      ],
+      'incap': [
+          'runtime': "net.ltgt.gradle.incap:incap:${versions.incap}",
+          'processor': "net.ltgt.gradle.incap:incap-processor:${versions.incap}",
       ]
   ]
 
   repositories {
     mavenCentral()
-    jcenter()
     google()
+    jcenter()
     gradlePluginPortal()
   }
 

@@ -8,7 +8,6 @@ android {
 
     consumerProguardFiles 'proguard-rules.txt'
 
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
   }
 
   compileOptions {
@@ -31,11 +30,6 @@ android {
 
 dependencies {
   api project(':butterknife-runtime')
-
-  androidTestImplementation deps.junit
-  androidTestImplementation deps.truth
-  androidTestImplementation deps.support.test.runner
-  androidTestAnnotationProcessor project(':butterknife-compiler')
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

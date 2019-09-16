@@ -2,13 +2,15 @@ package butterknife;
 
 import android.support.annotation.IdRes;
 import android.view.View;
-import butterknife.internal.ListenerClass;
-import butterknife.internal.ListenerMethod;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import butterknife.internal.ListenerClass;
+import butterknife.internal.ListenerMethod;
+
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Bind a method to an {@code OnPageChangeListener} on the view for each ID specified.
@@ -28,14 +30,12 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  * </code></pre>
  */
 @Target(METHOD)
-@Retention(CLASS)
+@Retention(RUNTIME)
 @ListenerClass(
-    targetType = "androidx.viewpager.widget.ViewPager",
-    legacyTargetType = "android.support.v4.view.ViewPager",
+    targetType = "android.support.v4.view.ViewPager",
     setter = "addOnPageChangeListener",
     remover = "removeOnPageChangeListener",
-    type = "androidx.viewpager.widget.ViewPager.OnPageChangeListener",
-    legacyType = "android.support.v4.view.ViewPager.OnPageChangeListener",
+    type = "android.support.v4.view.ViewPager.OnPageChangeListener",
     callbacks = OnPageChange.Callback.class
 )
 public @interface OnPageChange {

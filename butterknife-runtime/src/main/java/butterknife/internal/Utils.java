@@ -59,13 +59,9 @@ public final class Utils {
         views[end++] = view;
       }
     }
-    if (end == length) {
-      return views;
-    }
-    //noinspection unchecked
-    T[] newViews = (T[]) Array.newInstance(views.getClass().getComponentType(), end);
-    System.arraycopy(views, 0, newViews, 0, end);
-    return newViews;
+    return end == length
+        ? views
+        : Arrays.copyOf(views, end);
   }
 
   @SafeVarargs

@@ -212,6 +212,12 @@ public final class ButterKnife {
         unbinder = parseOnLongClick(target, method, source);
         if (unbinder != null) unbinders.add(unbinder);
 
+        unbinder = parseOnPageChange(target, method, source);
+        if (unbinder != null) unbinders.add(unbinder);
+
+        unbinder = parseOnTextChanged(target, method, source);
+        if (unbinder != null) unbinders.add(unbinder);
+
         unbinder = parseOnTouch(target, method, source);
         if (unbinder != null) unbinders.add(unbinder);
       }
@@ -236,15 +242,18 @@ public final class ButterKnife {
     validateMember(field);
 
     int id = bindView.value();
-    boolean isRequired = isRequired(field);
     Class<?> viewClass = field.getType();
-    String who = "field '" + field.getName() + "'";
-    Object view;
-    if (isRequired) {
-      view = Utils.findRequiredViewAsType(source, id, who, viewClass);
-    } else {
-      view = Utils.findOptionalViewAsType(source, id, who, viewClass);
+    if (!View.class.isAssignableFrom(viewClass) && !viewClass.isInterface()) {
+      throw new IllegalStateException(
+          "@BindView fields must extend from View or be an interface. ("
+              + field.getDeclaringClass().getName()
+              + '.'
+              + field.getName()
+              + ')');
     }
+
+    String who = "field '" + field.getName() + "'";
+    Object view = Utils.findOptionalViewAsType(source, id, who, viewClass);
     trySet(field, target, view);
 
     return new FieldUnbinder(target, field);

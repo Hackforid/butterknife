@@ -55,18 +55,17 @@ class ButterKnifePlugin : Plugin<Project> {
 
   private fun configureR2Generation(project: Project, variants: DomainObjectSet<out BaseVariant>) {
     variants.all { variant ->
-      val useAndroidX = (project.findProperty("android.useAndroidX") as String?)?.toBoolean() ?: false
       val outputDir = project.buildDir.resolve(
           "generated/source/r2/${variant.dirName}")
 
       val rPackage = getPackageName(variant)
       val once = AtomicBoolean()
       variant.outputs.all { output ->
-        val processResources = output.processResources
-
         // Though there might be multiple outputs, their R files are all the same. Thus, we only
         // need to configure the task once with the R.java input and action.
         if (once.compareAndSet(false, true)) {
+          val processResources = output.processResourcesProvider.get() // TODO lazy
+
           // TODO: switch to better API once exists in AGP (https://issuetracker.google.com/118668005)
           val rFile =
               project.files(
@@ -74,23 +73,22 @@ class ButterKnifePlugin : Plugin<Project> {
                     is GenerateLibraryRFileTask -> processResources.textSymbolOutputFile
                     is LinkApplicationAndroidResourcesTask -> processResources.textSymbolOutputFile
                     else -> throw RuntimeException(
-                        "Minimum supported Android Gradle Plugin is 3.1.0")
+                        "Minimum supported Android Gradle Plugin is 3.3.0")
                   })
                   .builtBy(processResources)
-          project.tasks.create("generate${variant.name.capitalize()}R2", R2Generator::class.java) {
+          val generate = project.tasks.create("generate${variant.name.capitalize()}R2", R2Generator::class.java) {
             it.outputDir = outputDir
             it.rFile = rFile
-            it.useAndroidX = useAndroidX
             it.packageName = rPackage
             it.className = "R2"
-            variant.registerJavaGeneratingTask(it, outputDir)
           }
+          variant.registerJavaGeneratingTask(generate, outputDir)
         }
       }
     }
   }
 
   private operator fun <T : Any> ExtensionContainer.get(type: KClass<T>): T {
-    return getByType(type.java)!!
+    return getByType(type.java)
   }
 }

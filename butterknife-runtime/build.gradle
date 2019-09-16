@@ -6,8 +6,6 @@ android {
   defaultConfig {
     minSdkVersion versions.minSdk
 
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-
     javaCompileOptions {
       annotationProcessorOptions {
         includeCompileClasspath = true
@@ -38,19 +36,6 @@ dependencies {
   api deps.support.compat
 
   lintChecks project(':butterknife-lint')
-
-  androidTestImplementation deps.junit
-  androidTestImplementation deps.truth
-  androidTestImplementation deps.support.test.runner
-  androidTestAnnotationProcessor project(':butterknife-compiler')
-
-  testImplementation deps.junit
-  testImplementation deps.truth
-  testImplementation deps.compiletesting
-  testImplementation files(getRuntimeJar())
-  testImplementation files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-  testImplementation project(':butterknife-compiler')
-  testImplementation deps.androidx.annotations
 }
 
 def getRuntimeJar() {

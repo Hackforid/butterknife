@@ -1,3 +1,7 @@
+# ButterKnife 10 for support version
+将version10的AndroidX修改为support包，临时使用
+
+
 Butter Knife
 ============
 
@@ -34,7 +38,7 @@ class ExampleActivity extends Activity {
 
 For documentation and additional information see [the website][3].
 
-__Remember: A butter knife is like [a dagger][1] only infinitely less sharp.__
+__Remember: A butter knife is like a [dagger][1], only infinitely less sharp.__
 
 
 
@@ -42,9 +46,18 @@ Download
 --------
 
 ```groovy
+android {
+  ...
+  // Butterknife requires Java 8.
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
 dependencies {
-  implementation 'com.jakewharton:butterknife:9.0.0'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+  implementation 'com.jakewharton:butterknife:10.2.0'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 }
 ```
 
@@ -63,9 +76,10 @@ To use Butter Knife in a library, add the plugin to your `buildscript`:
 buildscript {
   repositories {
     mavenCentral()
+    google()
    }
   dependencies {
-    classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0'
+    classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
   }
 }
 ```
@@ -108,7 +122,7 @@ License
 
 
 
- [1]: http://square.github.com/dagger/
+ [1]: https://dagger.dev/
  [2]: https://search.maven.org/remote_content?g=com.jakewharton&a=butterknife&v=LATEST
  [3]: http://jakewharton.github.com/butterknife/
  [snap]: https://oss.sonatype.org/content/repositories/snapshots/

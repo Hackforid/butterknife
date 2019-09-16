@@ -1,6 +1,34 @@
 Change Log
 ==========
 
+Version 10.2.0 *(2019-09-12)*
+-----------------------------
+
+ * New: Support incremental annotation processing.
+ * Fix: Detect generated superclass bindings across compilation units.
+ * Fix: Avoid deprecated APIs from the Android Gradle plugin. As a result, the new minimum supported version
+   of the Android Gradle plugin is 3.3.
+
+
+Version 10.1.0 *(2019-02-13)*
+-----------------------------
+
+ * New: Listeners which require return values (e.g., long click) can now be bound to methods returning `void`.
+   The default value of `true` will be returned in this case.
+ * New: Add support for `@OnTextChanged` and `@OnPageChange` to reflection backend.
+ * Remove enforcement of required views in the reflection backend. Most `@Nullable` annotations do not have
+   runtime retention so they can't be checked at runtime with reflection. Instead of forcing everyone to find
+   a new annotation, this enforcement is now dropped. While this might lead to nulls in otherwise required
+   view bindings, they'll either be unused or quickly cause a `NullPointerException`.
+
+
+Version 10.0.0 *(2019-01-03)*
+-----------------------------
+
+ * Equivalent to 9.0.0 but only supports AndroidX-enabled builds.
+ * Removed APIs deprecated in 9.0.0.
+
+
 Version 9.0.0 *(2019-01-03)*
 ----------------------------
 
@@ -22,6 +50,8 @@ Version 9.0.0 *(2019-01-03)*
    having this be a default. As of AGP 3.2 there is no reason not to do this.
 
  * New: Lint checks have been ported to UAST and now work on Kotlin code.
+
+ * Helpers such as `apply` have been deprecated on `ButterKnife` and are now available on the `ViewCollections` class.
 
  * Add support for Android Gradle plugin 3.3 and newer where `R` is no longer generated as Java source. This
    has a side-effect of removing support for Android Gradle plugin 3.0.x (and older).
